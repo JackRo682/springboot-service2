@@ -25,6 +25,7 @@ public class PostsRepositoryTest {
 
     @Test
     public void 게시글저장_불러오기() {
+        //given
         String title = "테스트 게시글";
         String contents = "테스트 본문";
 
@@ -34,16 +35,14 @@ public class PostsRepositoryTest {
                 .author("jp0301@naver.com")
                 .build());
 
+        //when
         List<Posts> postsList=postsRepository.findAll();
 
+        //then
         Posts posts=postsList.get(0);
         assertThat(posts.getTitle()).isEqualTo(title);
         assertThat(posts.getContent()).isEqualTo(contents);
     }
-
-
-
-
 }
 
 
