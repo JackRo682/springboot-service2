@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name = "POSTS")
 
 @Entity
 public class Posts {
@@ -16,13 +17,20 @@ public class Posts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length=500, nullable=false)
+    @Column(name = "TITLE", length = 500, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable=false)
+    @Column(name = "CONTENT", length = 500, nullable = false)
     private String content;
 
+    @Column(name="AUTHOR")
     private String author;
+
+    @Column(name="FILENAME")
+    private String filename;
+
+    @Column(name="FILEPATH")
+    private String filepath;
 
     @Builder
     public Posts(String title, String content, String author){

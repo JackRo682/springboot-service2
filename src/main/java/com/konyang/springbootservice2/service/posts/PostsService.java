@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +24,18 @@ public class PostsService {
 
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
-        return postsRepository.save(requestDto.toEntity()).getId();
-    }
+        Posts entity = requestDto.toEntity();
+        postsRepository.save(entity);
 
+        try (FileWriter writer = new FileWriter("posts.txt", true)) {
+            String line = entity.getId() + "," + entity.getTitle() + "," + entity.getContent() + "\n";
+            writer.write(line);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return entity.getId();
+    }
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto) {

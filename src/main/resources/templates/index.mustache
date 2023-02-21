@@ -1,34 +1,112 @@
 {{>layout/header}}
 
-    <h1>스프링 부트로 시작하는 웹 서비스 Ver.2</h1>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-12">
-                <a href="/posts/save" role="button" class="btn btn-primary">
-                    글 등록
-                </a>
-            </div>
-
+<h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
             <table class="table table-horizontal table-bordered">
                 <thead class="thead=strong">
-                    <tr>
-                        <th>게시글번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                    </tr>
+                <tr>
+                    <th>게시글번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                </tr>
                 </thead>
                 <tbody id="tbody">
                 {{#posts}} <!-- mustache문법, posts라는 List순회(for문과 동일) -->
-                    <tr>
-                        <td>{{id}}</td>
-                        <td><a href="/posts/update/{{id}}">{{title}}</a></td>
-                        <td>{{author}}</td>
-                    </tr>
+                <tr>
+                    <td><a href="/posts/update/{{id}}">{{id}}</a></td>
+                    <td>{{title}}</td>
+                    <td>{{author}}</td>
+                </tr>
                 {{/posts}}
                 </tbody>
             </table>
 
+            <div class="button-container">
+                <a href="#" onclick="selectFile()" role="button" class="btn btn-primary btn-create">
+                    업로드
+                </a>
+                <a href="/posts/save" role="button" class="btn btn-primary btn-create">
+                    추가
+                </a>
+                <a href="/download" role="button" class="btn btn-primary btn-download">
+                    다운로드
+                </a>
+            </div>
         </div>
     </div>
+</div>
 
-{{>layout/footer}}
+<style>
+  .container {
+    margin-top: 50px;
+  }
+  table {
+    text-align: center;
+    padding-right: 30px;
+  }
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+  td {
+    vertical-align: middle !important;
+    padding-right: 20px;
+  }
+  .button-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      width: 290px;
+      overflow: hidden;
+  }
+  .btn-create, .btn-download {
+    width: 90px;
+    white-space: nowrap;
+  }
+  .page-header {
+    margin-bottom: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+</style>
+
+<script>
+function selectFile() {
+  // Create an input element for file selection
+  var input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".txt,.pdf,.doc,.docx"; // Optional: limit accepted file types
+
+  // Add a change listener to the input element to handle file selection
+  input.addEventListener("change", function(event) {
+    // Get the selected file
+    var file = event.target.files[0];
+
+    // Create a FormData object to store the file data
+    var formData = new FormData();
+    formData.append("file", file);
+
+    // Send an AJAX request to the server to upload the file
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/upload");
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        console.log(xhr.responseText);
+      } else {
+        console.log("Error: " + xhr.statusText);
+      }
+    };
+    xhr.send(formData);
+  });
+
+  // Trigger a click event on the input element to open the file selection dialog
+  input.click();
+}
+</script>
