@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RequiredArgsConstructor
 @Controller
-public class IndexController
-{
+public class IndexController {
     private final PostsService postsService;
 
     @GetMapping("/")
@@ -22,7 +21,7 @@ public class IndexController
     }
 
     @GetMapping("/posts/save")
-    public String postsSave(){
+    public String postsSave() {
         return "posts-save";
     }
 
@@ -32,5 +31,4 @@ public class IndexController
         model.addAttribute("posts", dto);
         return "posts-update";
     }
-
 }
