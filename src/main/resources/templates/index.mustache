@@ -1,33 +1,35 @@
-{{>layout/header}}
+{{>layout/header}}      // Include the header section from another file
 
-<h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>
-{{#screenshot}}
-    <a href="{{../tableName}}.html"><img src="{{../screenshot}}"></a>
+<h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>      // Main heading
+
+{{#screenshot}}     // If a screenshot exists
+    <a href="{{../tableName}}.html"><img src="{{../screenshot}}"></a>       // Show the screenshot with a link to the table
 {{/screenshot}}
+
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped">
+                    <table class="table table-striped">    // Show a table with striped rows
                         <thead>
                         <tr>
-                            {{#posts}}
-                                <th>{{this.title}}</th>
+                            {{#posts}}    // For each post
+                                <th>{{this.title}}</th>    // Show the post title in a table header cell
                             {{/posts}}
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            {{#posts}}
-                                <td>{{this.content}}</td>
+                            {{#posts}}    // For each post
+                                <td>{{this}}</td>    // Show the post content in a table data cell
                             {{/posts}}
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="button-container">
+            <div class="button-container">    // Show two buttons for uploading and downloading
                 <a href="#" onclick="selectFile()" role="button" class="btn btn-primary btn-create">
                     업로드
                 </a>
@@ -38,7 +40,8 @@
         </div>
     </div>
 </div>
-<style>
+
+<style>    // Define CSS styles for the page
   .container {
     margin-top: 50px;
   }
@@ -78,8 +81,8 @@
   }
 </style>
 
-<script>
-function selectFile() {
+<script>    // Define JavaScript functions for handling file uploads and input updates
+function selectFile() {    // Handle file selection
   // Create an input element for file selection
   var input = document.createElement("input");
   input.type = "file";

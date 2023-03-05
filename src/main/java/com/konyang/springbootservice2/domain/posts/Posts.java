@@ -36,7 +36,7 @@ public class Posts {
     public Posts(String title, String content, String author){
         this.title = title;
         this.content = content;
-        this.author=author;
+        this.author = author;
     }
 
     public void update(String title, String content) {
@@ -44,4 +44,8 @@ public class Posts {
         this.content = content;
     }
 
+    // Added getter method for "content" field
+    public String getContent() {
+        return content;
+    }
 }

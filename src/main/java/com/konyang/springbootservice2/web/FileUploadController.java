@@ -1,4 +1,5 @@
 package com.konyang.springbootservice2.web;// Import the necessary libraries
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -59,13 +60,12 @@ public class FileUploadController {
             jdbcTemplate.execute(query);
         }
 
-        // Take a screenshot of the uploaded HTML file
+        // Take a screenshot of the entire screen
         BufferedImage screenshot = null;
         try {
-            WebDriver driver = new ChromeDriver();
-            driver.get("file://" + dest.getAbsolutePath());
-            screenshot = new AShot().takeScreenshot(driver).getImage();
-            driver.quit();
+            Robot robot = new Robot();
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            screenshot = robot.createScreenCapture(screenRect);
         } catch (Exception e) {
             System.out.println("Error taking screenshot: " + e.getMessage());
         }
