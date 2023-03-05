@@ -1,27 +1,33 @@
-package com.konyang.springbootservice2.web;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
+package com.konyang.springbootservice2.web;// Import the necessary libraries
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import javax.imageio.ImageIO;
 
-@RestController
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+@Controller
 public class FileUploadController {
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
         // Create a File object with the desired file path
         File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
 
@@ -53,6 +59,41 @@ public class FileUploadController {
             jdbcTemplate.execute(query);
         }
 
-        return "File uploaded successfully! Number of input tags: " + numInputs;
+        // Take a screenshot of the uploaded HTML file
+        BufferedImage screenshot = null;
+        try {
+            WebDriver driver = new ChromeDriver();
+            driver.get("file://" + dest.getAbsolutePath());
+            screenshot = new AShot().takeScreenshot(driver).getImage();
+            driver.quit();
+        } catch (Exception e) {
+            System.out.println("Error taking screenshot: " + e.getMessage());
+        }
+
+        // Save the screenshot to a file
+        if (screenshot != null) {
+            String screenshotFilename = "screenshot_" + file.getOriginalFilename().replace(".html", ".png");
+            File screenshotFile = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + screenshotFilename);
+            ImageIO.write(screenshot, "png", screenshotFile);
+
+            // Add the screenshot filename to the model for rendering on the index page
+            model.addAttribute("screenshot", screenshotFilename);
+        }
+
+        // Add the database table name and number of inputs to the model for rendering on the index page
+        model.addAttribute("tableName", tableName);
+        model.addAttribute("numInputs", numInputs);
+
+        return "index";
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public String handleInputUpdate(@RequestParam("tableName") String tableName, @RequestParam("inputName") String inputName, @RequestParam("inputValue") String inputValue) {
+        // Update the corresponding database entry with the new input value
+        String query = "UPDATE " + tableName + " SET " + inputName + " = '" + inputValue + "'";
+        jdbcTemplate.execute(query);
+
+        return "Success";
     }
 }

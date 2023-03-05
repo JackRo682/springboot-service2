@@ -1,17 +1,32 @@
 {{>layout/header}}
 
 <h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>
+{{#screenshot}}
+    <a href="{{../tableName}}.html"><img src="{{../screenshot}}"></a>
+{{/screenshot}}
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                {{#screenshots}}
-                    <div class="col-md-6">
-                        <img src="{{path}}" class="img-responsive">
-                    </div>
-                {{/screenshots}}
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            {{#posts}}
+                                <th>{{this.title}}</th>
+                            {{/posts}}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            {{#posts}}
+                                <td>{{this.content}}</td>
+                            {{/posts}}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
             <div class="button-container">
                 <a href="#" onclick="selectFile()" role="button" class="btn btn-primary btn-create">
                     업로드
@@ -23,7 +38,6 @@
         </div>
     </div>
 </div>
-
 <style>
   .container {
     margin-top: 50px;
@@ -50,7 +64,7 @@
       width: auto; /* remove fixed width */
       overflow: hidden;
   }
-  .btn-create, .btn-download {
+      .btn-create, .btn-download {
       margin-left: 10px; /* add some margin between the buttons */
       white-space: nowrap;
   }
@@ -69,7 +83,7 @@ function selectFile() {
   // Create an input element for file selection
   var input = document.createElement("input");
   input.type = "file";
-  input.accept = ".txt,.pdf,.doc,.docx"; // Optional: limit accepted file types
+  input.accept = ".html"; // Only allow HTML files to be uploaded
 
   // Add a change listener to the input element to handle file selection
   input.addEventListener("change", function(event) {
@@ -80,12 +94,16 @@ function selectFile() {
     var formData = new FormData();
     formData.append("file", file);
 
-    // Send an AJAX request to the server to upload the file
+    // Send an AJAX request to the server to upload the file and update the view
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/upload");
     xhr.onload = function() {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
+        var response = JSON.parse(xhr.responseText);
+
+        // Update the screenshot and table on the view
+        document.getElementById("screenshot").src = response.screenshot;
+        document.getElementById("table").innerHTML = response.tableHtml;
       } else {
         console.log("Error: " + xhr.statusText);
       }
@@ -95,5 +113,20 @@ function selectFile() {
 
   // Trigger a click event on the input element to open the file selection dialog
   input.click();
+}
+
+function handleInputChange(tableName, inputName, inputValue) {
+  // Send an AJAX request to update the database with the new input value
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/update");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log("Input updated successfully!");
+    } else {
+      console.log("Error: " + xhr.statusText);
+    }
+  };
+  xhr.send("tableName=" + tableName + "&inputName=" + inputName + "&inputValue=" + inputValue);
 }
 </script>
