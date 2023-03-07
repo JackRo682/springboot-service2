@@ -1,4 +1,3 @@
-
 // Define JavaScript functions for handling file uploads and input updates
 function selectFile() {    // Handle file selection
   // Create an input element for file selection
@@ -37,16 +36,26 @@ function selectFile() {    // Handle file selection
 }
 
 function handleInputChange(tableName, inputName, inputValue) {
-  // Send an AJAX request to update the database with the new input value
+  // Create a new AJAX request to update the database with the new input value
   var xhr = new XMLHttpRequest();
+
+  // Specify the URL and HTTP method for the request
   xhr.open("POST", "/update");
+
+  // Set the content type of the request
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  // Define what to do when the response comes back
   xhr.onload = function() {
+    // If the response is successful, log a message to the console
     if (xhr.status === 200) {
       console.log("Input updated successfully!");
     } else {
+      // If there's an error, log the error message to the console
       console.log("Error: " + xhr.statusText);
     }
   };
+
+  // Send the request with the table name, input name, and input value as parameters
   xhr.send("tableName=" + tableName + "&inputName=" + inputName + "&inputValue=" + inputValue);
 }

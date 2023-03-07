@@ -2,43 +2,17 @@
 
 <h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>      {{! Main heading }}
 
-{{#screenshot}}     // If a screenshot exists
+{{#screenshot}}     {{! If a screenshot exists }}
     <a href="{{../tableName}}.html"><img src="{{../screenshot}}"></a>       {{! Show the screenshot with a link to the table }}
 {{/screenshot}}
 
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-striped">    {{! Show a table with striped rows }}
-                        <thead>
-                        <tr>
-                            {{#posts}}    {{! For each post}}
-                                <th>{{this.title}}</th>    {{! Show the post title in a table header cell }}
-                            {{/posts}}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            {{#posts}}    {{! For each post}}
-                                <td>{{this}}</td>    {{! Show the post content in a table data cell}}
-                            {{/posts}}
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="button-container">    {{! Show two buttons for uploading and downloading }}
-                <a href="#" onclick="selectFile()" role="button" class="btn btn-primary btn-create">
-                    업로드
-                </a>
-                <a href="/download" role="button" class="btn btn-primary btn-download">
-                    다운로드
-                </a>
-            </div>
-        </div>
-    </div>
+<div class="button-container">    {{! Show two buttons for uploading and downloading }}
+    <a href="#" onclick="selectFile()" role="button" class="btn btn-primary btn-create">
+        업로드
+    </a>
+    <a href="/download" role="button" class="btn btn-primary btn-download">
+        다운로드
+    </a>
 </div>
 
 <style>

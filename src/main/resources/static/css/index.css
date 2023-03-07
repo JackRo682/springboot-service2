@@ -1,18 +1,22 @@
 .container {
 margin-top: 50px;
 }
+
 table {
 text-align: center;
 padding-right: 30px;
 }
+
 th {
 background-color: #007bff;
 color: white;
 }
+
 td {
 vertical-align: middle !important;
 padding-right: 20px;
 }
+
 .button-container {
   position: fixed;
   bottom: 20px;
@@ -23,13 +27,16 @@ padding-right: 20px;
   width: auto; /* remove fixed width */
   overflow: hidden;
 }
+
   .btn-create, .btn-download {
   margin-left: 10px; /* add some margin between the buttons */
   white-space: nowrap;
 }
+
 .page-header {
 margin-bottom: 20px;
 }
+
 h1 {
 text-align: center;
 margin-top: 50px;
