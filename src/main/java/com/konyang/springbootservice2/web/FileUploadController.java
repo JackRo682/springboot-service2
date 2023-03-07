@@ -24,11 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class FileUploadController {
+
+    // Use dependency injection to get a reference to the JdbcTemplate object
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // Handle file uploads with a POST request to the /upload endpoint
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
+
         // Create a File object with the desired file path
         File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
 
@@ -87,6 +91,7 @@ public class FileUploadController {
         return "index";
     }
 
+    // Return the name of the view to be rendered (in this case, "index.html")
     @PostMapping("/update")
     @ResponseBody
     public String handleInputUpdate(@RequestParam("tableName") String tableName, @RequestParam("inputName") String inputName, @RequestParam("inputValue") String inputValue) {
