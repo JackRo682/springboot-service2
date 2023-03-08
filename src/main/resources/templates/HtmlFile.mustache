@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML File Upload</title>
+</head>
+<body>
+<h1>HTML File Upload</h1>
+
+<!-- HTML form for file upload -->
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file"><br><br>
+    <input type="submit" value="Upload">
+</form>
+<br>
+
+<!-- Check if a HTML file has been uploaded and display its name -->
+{{#htmlFileDto}}
+    <h2>{{name}}</h2>
+
+    <!-- Check if the HTML file has input tags and display input fields -->
+    {{#if inputCount}}
+        <form method="post" action="/update">
+            <table>
+
+                <!-- Generate input fields dynamically based on the input count -->
+                {{#times inputCount}}
+                    <tr>
+                        <td>Input {{this}}:</td>
+                        <td><input type="text" name="input{{this}}"></td>
+                    </tr>
+                {{/times}}
+            </table>
+            <br>
+
+            <!-- Hidden input field for passing the table name -->
+            <input type="hidden" name="tableName" value="{{name}}">
+            <input type="submit" value="Save">
+        </form>
+    {{/if}}
+
+    <!-- Check if a screenshot image exists and display it -->
+    {{#if screenshot}}
+        <a href="/{{screenshot}}" target="_blank"><img src="/{{screenshot}}" width="640" height="480"></a>
+    {{/if}}
+{{/htmlFileDto}}
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.konyang.springbootservice2.web;
 
-import com.konyang.springbootservice2.service.posts.PostsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,3 +16,7 @@ public class IndexController {
         return "index";
     }
 }
+
+/*
+'HtmlFileController와 비교해서 한번 더 점검해봐야 한다.  !!!! 삭제하면 안된다 !!!!
+ */

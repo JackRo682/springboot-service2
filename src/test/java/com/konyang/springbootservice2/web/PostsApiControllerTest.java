@@ -1,9 +1,6 @@
 package com.konyang.springbootservice2.web;
 
 import com.konyang.springbootservice2.domain.posts.Posts;
-import com.konyang.springbootservice2.domain.posts.PostsRepository;
-import com.konyang.springbootservice2.web.dto.PostsSaveRequestDto;
-import com.konyang.springbootservice2.web.dto.PostsUpdateRequestDto;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

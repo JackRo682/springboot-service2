@@ -1,7 +1,60 @@
 package com.konyang.springbootservice2.service.posts;
 
+import com.konyang.springbootservice2.domain.posts.HtmlFile;
+import com.konyang.springbootservice2.domain.posts.HtmlFileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+@Service
+public class HtmlFileServiceImpl implements HtmlFileService {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void createTable(HtmlFile htmlFile) {
+        String tableName = htmlFile.getName().replace(".html", "");
+        jdbcTemplate.execute("CREATE TABLE " + tableName + " (id INT AUTO_INCREMENT PRIMARY KEY)");
+
+        for (int i = 0; i < htmlFile.getInputCount(); i++) {
+            String columnName = "input_" + i;
+            jdbcTemplate.execute("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " VARCHAR(255)");
+        }
+    }
+
+    @Override
+    public void saveInputData(HtmlFile htmlFile, String inputName, String inputValue) {
+        String tableName = htmlFile.getName().replace(".html", "");
+        String query = "INSERT INTO " + tableName + " (" + inputName + ") VALUES ('" + inputValue + "')";
+        jdbcTemplate.execute(query);
+    }
+
+    @Override
+    public BufferedImage takeScreenshot(HtmlFile htmlFile) throws AWTException, IOException {
+        Robot robot = new Robot();
+        Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+        BufferedImage screenshot = robot.createScreenCapture(screenRect);
+
+        String screenshotFilename = "screenshot_" + htmlFile.getName().replace(".html", ".png");
+        File screenshotFile = new File(screenshotFilename);
+        ImageIO.write(screenshot, "png", screenshotFile);
+
+        return screenshot;
+    }
+}
+
+/*
+-> Former 'PostsService' service code
+
+package com.konyang.springbootservice2.service.posts;
+
 import com.konyang.springbootservice2.domain.posts.Posts;
-import com.konyang.springbootservice2.domain.posts.PostsRepository;
 import com.konyang.springbootservice2.web.dto.PostsListResponseDto;
 import com.konyang.springbootservice2.web.dto.PostsResponseDto;
 import com.konyang.springbootservice2.web.dto.PostsSaveRequestDto;
@@ -65,27 +118,4 @@ public class PostsService {
         postsRepository.delete(posts);
     }
 }
-
-/*
-@Autowired
-private DynamicEntityRepository dynamicEntityRepository;
-
-public void createDynamicEntityFromHtmlFile(String htmlFilePath) {
-    // Parse the HTML file and extract the input tags and their values
-    Map<String, String> dynamicFields = new HashMap<>();
-    dynamicFields.put("input1", "value1");
-    dynamicFields.put("input2", "value2");
-    // ...
-    dynamicFields.put("inputN", "valueN");
-
-    // Create a new DynamicEntity with the dynamic fields
-    DynamicEntity dynamicEntity = new DynamicEntity();
-    dynamicEntity.setDynamicFields(dynamicFields);
-
-    // Save the entity to the database
-    dynamicEntityRepository.save(dynamicEntity);
-}
-
-->> DynamicEntityRepository.java 파일의 코드인 것 같다.
-
-*/
+ */
