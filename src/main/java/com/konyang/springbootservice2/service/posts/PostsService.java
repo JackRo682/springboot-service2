@@ -65,3 +65,24 @@ public class PostsService {
         postsRepository.delete(posts);
     }
 }
+
+/*
+@Autowired
+private DynamicEntityRepository dynamicEntityRepository;
+
+public void createDynamicEntityFromHtmlFile(String htmlFilePath) {
+    // Parse the HTML file and extract the input tags and their values
+    Map<String, String> dynamicFields = new HashMap<>();
+    dynamicFields.put("input1", "value1");
+    dynamicFields.put("input2", "value2");
+    // ...
+    dynamicFields.put("inputN", "valueN");
+
+    // Create a new DynamicEntity with the dynamic fields
+    DynamicEntity dynamicEntity = new DynamicEntity();
+    dynamicEntity.setDynamicFields(dynamicFields);
+
+    // Save the entity to the database
+    dynamicEntityRepository.save(dynamicEntity);
+}
+*/
