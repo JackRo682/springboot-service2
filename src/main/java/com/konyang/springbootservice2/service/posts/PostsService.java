@@ -85,4 +85,7 @@ public void createDynamicEntityFromHtmlFile(String htmlFilePath) {
     // Save the entity to the database
     dynamicEntityRepository.save(dynamicEntity);
 }
+
+->> DynamicEntityRepository.java 파일의 코드인 것 같다.
+
 */
