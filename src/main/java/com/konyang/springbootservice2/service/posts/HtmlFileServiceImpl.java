@@ -23,32 +23,39 @@ public class HtmlFileServiceImpl implements HtmlFileService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void createTable(HtmlFile htmlFile) throws IOException {
+    public void createTable(HtmlFile htmlFile) {
         String tableName = htmlFile.getName().replace(".html", "");
 
-        // parse the HTML file using JSoup
-        File input = new File(htmlFile.getName());
-        Document doc = Jsoup.parse(input, "UTF-8");
-        Elements inputElements = doc.getElementsByTag("input");
+        try {
+            // parse the HTML file using JSoup
+            File input = new File(htmlFile.getName());
+            Document doc = Jsoup.parse(input, "UTF-8");
+            Elements inputElements = doc.getElementsByTag("input");
 
-        // create a list of column names based on the names of the input fields
-        List<String> columnNames = new ArrayList<String>();
-        for (Element inputElement : inputElements) {
-            String name = inputElement.attr("name");
-            columnNames.add(name);
+            // create a list of column names based on the names of the input fields
+            List<String> columnNames = new ArrayList<String>();
+            for (Element inputElement : inputElements) {
+                String name = inputElement.attr("name");
+                columnNames.add(name);
+            }
+
+            // create a SQL query to create the table with the correct column names
+            StringBuilder sb = new StringBuilder();
+            sb.append("CREATE TABLE ").append(tableName).append(" (id INT AUTO_INCREMENT PRIMARY KEY");
+            for (String columnName : columnNames) {
+                sb.append(", ").append(columnName).append(" VARCHAR(255)");
+            }
+            sb.append(")");
+
+            // execute the SQL query to create the table
+            jdbcTemplate.execute(sb.toString());
+        } catch (IOException e) {
+            // handle the IOException here, for example by logging the error and displaying a user-friendly message
+            logger.error("Error parsing HTML file: {}", e.getMessage());
+            throw new RuntimeException("Error creating table: please try again later.");
         }
-
-        // create a SQL query to create the table with the correct column names
-        StringBuilder sb = new StringBuilder();
-        sb.append("CREATE TABLE ").append(tableName).append(" (id INT AUTO_INCREMENT PRIMARY KEY");
-        for (String columnName : columnNames) {
-            sb.append(", ").append(columnName).append(" VARCHAR(255)");
-        }
-        sb.append(")");
-
-        // execute the SQL query to create the table
-        jdbcTemplate.execute(sb.toString());
     }
+
 
 
     @Override
