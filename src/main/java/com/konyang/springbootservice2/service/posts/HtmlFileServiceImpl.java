@@ -2,6 +2,10 @@ package com.konyang.springbootservice2.service.posts;
 
 import com.konyang.springbootservice2.domain.posts.HtmlFile;
 import com.konyang.springbootservice2.domain.posts.HtmlFileService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Service
 public class HtmlFileServiceImpl implements HtmlFileService {
@@ -18,22 +23,46 @@ public class HtmlFileServiceImpl implements HtmlFileService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void createTable(HtmlFile htmlFile) {
+    public void createTable(HtmlFile htmlFile) throws IOException {
         String tableName = htmlFile.getName().replace(".html", "");
-        jdbcTemplate.execute("CREATE TABLE " + tableName + " (id INT AUTO_INCREMENT PRIMARY KEY)");
 
-        for (int i = 0; i < htmlFile.getInputCount(); i++) {
-            String columnName = "input_" + i;
-            jdbcTemplate.execute("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " VARCHAR(255)");
+        // parse the HTML file using JSoup
+        File input = new File(htmlFile.getName());
+        Document doc = Jsoup.parse(input, "UTF-8");
+        Elements inputElements = doc.getElementsByTag("input");
+
+        // create a list of column names based on the names of the input fields
+        List<String> columnNames = new ArrayList<String>();
+        for (Element inputElement : inputElements) {
+            String name = inputElement.attr("name");
+            columnNames.add(name);
         }
+
+        // create a SQL query to create the table with the correct column names
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE TABLE ").append(tableName).append(" (id INT AUTO_INCREMENT PRIMARY KEY");
+        for (String columnName : columnNames) {
+            sb.append(", ").append(columnName).append(" VARCHAR(255)");
+        }
+        sb.append(")");
+
+        // execute the SQL query to create the table
+        jdbcTemplate.execute(sb.toString());
     }
+
 
     @Override
     public void saveInputData(HtmlFile htmlFile, String inputName, String inputValue) {
         String tableName = htmlFile.getName().replace(".html", "");
-        String query = "INSERT INTO " + tableName + " (" + inputName + ") VALUES ('" + inputValue + "')";
-        jdbcTemplate.execute(query);
+
+        // create a SQL query to insert the input data into the correct column
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO ").append(tableName).append("(").append(inputName).append(") VALUES ('").append(inputValue).append("')");
+
+        // execute the SQL query to insert the input data
+        jdbcTemplate.execute(sb.toString());
     }
+
 
     @Override
     public BufferedImage takeScreenshot(HtmlFile htmlFile) throws AWTException, IOException {
