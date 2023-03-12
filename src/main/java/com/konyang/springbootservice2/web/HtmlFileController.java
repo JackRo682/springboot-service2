@@ -35,7 +35,7 @@ public class HtmlFileController {
 
             /* HTML file saving */
             // Create a File object with the desired file path
-            String filePath = "/path/to/your/directory/" + filename;
+            File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
             File dest = new File(filename);
 
             // Save the file to the desired directory using transferTo() method
