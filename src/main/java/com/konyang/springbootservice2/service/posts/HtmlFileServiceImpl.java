@@ -9,6 +9,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,11 +18,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HtmlFileServiceImpl implements HtmlFileService {
     @Autowired
+    private static final Logger logger = LoggerFactory.getLogger(HtmlFileServiceImpl.class);
     private JdbcTemplate jdbcTemplate;
+
 
     @Override
     public void createTable(HtmlFile htmlFile) {

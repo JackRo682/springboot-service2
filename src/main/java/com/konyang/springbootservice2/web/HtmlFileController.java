@@ -70,11 +70,26 @@ public class HtmlFileController {
     }
 
 
+    // Annotation for HTTP POST requests to "/update" URL
     @PostMapping("/update")
+
+    // Annotation for response body
     @ResponseBody
+
+    // Method to handle POST request
+
+    // Binds "tableName" parameter from request to method's "tableName" parameter
+    // Binds "inputName" parameter from request to method's "inputName" parameter
+    // Binds "inputValue" parameter from request to method's "inputValue" parameter
     public String handleInputUpdate(@RequestParam("tableName") String tableName, @RequestParam("inputName") String inputName, @RequestParam("inputValue") String inputValue) {
+
+        // Create a new HtmlFile object with the given table name and version.
         HtmlFile htmlFile = new HtmlFile(tableName + ".html", 0);
+
+        // Save the input data to the HtmlFile using the HtmlFileService.
         htmlFileService.saveInputData(htmlFile, inputName, inputValue);
+
+        // Return "Success" as the response body.
         return "Success";
     }
 }

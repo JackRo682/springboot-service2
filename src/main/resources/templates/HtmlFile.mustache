@@ -18,13 +18,19 @@
 {{#htmlFileDto}}
     <h2>{{name}}</h2>
 
-    <!-- Check if the HTML file has input tags and display input fields -->
+    <!-- This code generates an HTML form with input fields based on the `inputCount` variable. -->
     {{#if inputCount}}
+
+        <!-- Form starts with "post" method and "/update" action -->
         <form method="post" action="/update">
+
+            <!-- Table to contain dynamically generated input fields -->
             <table>
 
                 <!-- Generate input fields dynamically based on the input count -->
                 {{#times inputCount}}
+
+                    <!-- Input fields with unique names based on the current iteration count -->
                     <tr>
                         <td>Input {{this}}:</td>
                         <td><input type="text" name="input{{this}}"></td>
@@ -35,13 +41,20 @@
 
             <!-- Hidden input field for passing the table name -->
             <input type="hidden" name="tableName" value="{{name}}">
+
+            <!-- Submit button to submit the form -->
             <input type="submit" value="Save">
         </form>
     {{/if}}
 
     <!-- Check if a screenshot image exists and display it -->
     {{#if screenshot}}
-        <a href="/{{screenshot}}" target="_blank"><img src="/{{screenshot}}" width="640" height="480"></a>
+
+        <!-- Checks whether `screenshot` is truthy. -->
+        <a href="/{{screenshot}}" target="_blank">
+
+        <!-- Creates a link to the image file with `href` and displays the image with `src`. -->
+        <img src="/{{screenshot}}" width="640" height="480"></a>
     {{/if}}
 {{/htmlFileDto}}
 </body>
