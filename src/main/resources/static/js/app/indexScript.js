@@ -70,3 +70,10 @@ function handleInputChange(tableName, inputName, inputValue) {
   // Send the request with the table name, input name, and input value as parameters
   xhr.send("tableName=" + tableName + "&inputName=" + inputName + "&inputValue=" + inputValue);
 }
+
+function openHtmlFile(event) {
+    event.preventDefault();  // prevent the default behavior of clicking on a link
+
+    var fileName = event.currentTarget.href;  // get the href attribute of the link
+    window.open(fileName);  // open the HTML file in a new browser window or tab
+}

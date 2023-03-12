@@ -3,7 +3,10 @@
 <h1 class="page-header">데이터베이스 생성 보조 웹사이트</h1>      {{! Main heading }}
 
 {{#screenshot}}     {{! If a screenshot exists }}
-    <a href="{{../tableName}}.html"><img src="{{../screenshot}}"></a>       {{! Show the screenshot with a link to the table }}
+    <div class="screenshot-container">
+        <a href="{{../tableName}}.html"><img src="/Screenshot/{{screenshot}}" onclick="openHtmlFile(event)"></a>
+        <!-- Replace "/path/to/screenshot.png" with the actual file path and file name where the screenshot is saved -->
+    </div>
 {{/screenshot}}
 
 <div class="button-container">    {{! Show two buttons for uploading and downloading }}
