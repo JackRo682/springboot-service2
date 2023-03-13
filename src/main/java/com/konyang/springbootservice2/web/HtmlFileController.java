@@ -43,20 +43,6 @@ public class HtmlFileController {
 
 
 
-            /* HTML file input tag count & database creation */
-            // Scan the uploaded HTML file and count the number of input tags
-            Document doc = Jsoup.parse(file.getInputStream(), "UTF-8", "");
-            Elements inputElements = doc.select("input");
-            int numInputs = inputElements.size();
-
-            // Create a new HtmlFile object with the uploaded file name and input count
-            HtmlFile htmlFile = new HtmlFile(filename, numInputs);
-
-            // Create a new database table with a name based on the uploaded file name
-            htmlFileService.createTable(htmlFile);
-
-
-
             /* HTML file screenshot save */
             // Define the file path where you want to save the screenshot
             String screenshotFilename = "screenshot_" + filename.replace(".html", ".png");
@@ -73,6 +59,21 @@ public class HtmlFileController {
             }
 
             return "redirect:/index";
+            
+
+
+            /* HTML file input tag count & database creation */
+            // Scan the uploaded HTML file and count the number of input tags
+            Document doc = Jsoup.parse(file.getInputStream(), "UTF-8", "");
+            Elements inputElements = doc.select("input");
+            int numInputs = inputElements.size();
+
+            // Create a new HtmlFile object with the uploaded file name and input count
+            HtmlFile htmlFile = new HtmlFile(filename, numInputs);
+
+            // Create a new database table with a name based on the uploaded file name
+            htmlFileService.createTable(htmlFile);
+
         } else {
             model.addAttribute("error", "Invalid file type. Please upload an HTML file.");
             return "error";
