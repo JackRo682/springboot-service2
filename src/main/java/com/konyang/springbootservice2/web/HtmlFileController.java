@@ -31,9 +31,7 @@ public class HtmlFileController {
 
         if (extension.equals("html")) {
 
-
-
-            /* HTML file saving */
+            /* HTML file save to the local folder */
             // Create a File object with the desired file path
             File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
             File dest = new File(filename);
@@ -41,7 +39,24 @@ public class HtmlFileController {
             // Save the file to the desired directory using transferTo() method
             file.transferTo(dest);
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+public class dFileUploadController {
 
+    // Use dependency injection to get a reference to the JdbcTemplate object
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    // Handle file uploads with a POST request to the /upload endpoint
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
+
+        // Create a File object with the desired file path
+        File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
+
+        // Save the file to the desired directory using transferTo() method
+        file.transferTo(dest);
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
             /* HTML file screenshot save */
             // Define the file path where you want to save the screenshot
@@ -59,8 +74,28 @@ public class HtmlFileController {
             }
 
             return "redirect:/index";
-            
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Take a screenshot of the entire screen
+        BufferedImage screenshot = null;
+        try {
+            Robot robot = new Robot();
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            screenshot = robot.createScreenCapture(screenRect);
+        } catch (Exception e) {
+            System.out.println("Error taking screenshot: " + e.getMessage());
+        }
 
+        // Save the screenshot to a file
+        if (screenshot != null) {
+            String screenshotFilename = "screenshot_" + file.getOriginalFilename().replace(".html", ".png");
+            File screenshotFile = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + screenshotFilename);
+            ImageIO.write(screenshot, "png", screenshotFile);
+
+            // Add the screenshot filename to the model for rendering on the index page
+            model.addAttribute("screenshot", screenshotFilename);
+        }
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
             /* HTML file input tag count & database creation */
             // Scan the uploaded HTML file and count the number of input tags

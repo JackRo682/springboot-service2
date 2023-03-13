@@ -34,12 +34,35 @@ public class dFileUploadController {
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Create a File object with the desired file path
         File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
 
         // Save the file to the desired directory using transferTo() method
         file.transferTo(dest);
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Take a screenshot of the entire screen
+        BufferedImage screenshot = null;
+        try {
+            Robot robot = new Robot();
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            screenshot = robot.createScreenCapture(screenRect);
+        } catch (Exception e) {
+            System.out.println("Error taking screenshot: " + e.getMessage());
+        }
+
+        // Save the screenshot to a file
+        if (screenshot != null) {
+            String screenshotFilename = "screenshot_" + file.getOriginalFilename().replace(".html", ".png");
+            File screenshotFile = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + screenshotFilename);
+            ImageIO.write(screenshot, "png", screenshotFile);
+
+            // Add the screenshot filename to the model for rendering on the index page
+            model.addAttribute("screenshot", screenshotFilename);
+        }
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -68,25 +91,6 @@ public class dFileUploadController {
             jdbcTemplate.execute(query);
         }
 
-        // Take a screenshot of the entire screen
-        BufferedImage screenshot = null;
-        try {
-            Robot robot = new Robot();
-            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            screenshot = robot.createScreenCapture(screenRect);
-        } catch (Exception e) {
-            System.out.println("Error taking screenshot: " + e.getMessage());
-        }
-
-        // Save the screenshot to a file
-        if (screenshot != null) {
-            String screenshotFilename = "screenshot_" + file.getOriginalFilename().replace(".html", ".png");
-            File screenshotFile = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + screenshotFilename);
-            ImageIO.write(screenshot, "png", screenshotFile);
-
-            // Add the screenshot filename to the model for rendering on the index page
-            model.addAttribute("screenshot", screenshotFilename);
-        }
 
         // Add the database table name and number of inputs to the model for rendering on the index page
         model.addAttribute("tableName", tableName);
