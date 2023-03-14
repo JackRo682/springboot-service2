@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class HtmlFileServiceImpl implements HtmlFileInterface {
+public class HtmlFileService implements HtmlFileInterface {
     @Autowired
-    private static final Logger logger = LoggerFactory.getLogger(HtmlFileServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(HtmlFileService.class);
     private JdbcTemplate jdbcTemplate;
 
 
