@@ -1,6 +1,5 @@
 package com.konyang.springbootservice2.web;
 
-import com.konyang.springbootservice2.web.dto.HtmlFileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +28,7 @@ public class FileUploadController {
         if (extension.equals("html")) {
 
 
+
             /* HTML file save to the local folder */
             // Create a File object with the desired file path
             File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
@@ -37,16 +37,16 @@ public class FileUploadController {
             file.transferTo(dest);
 
 
+
             /* HTML file screenshot save */
             // Define the file path where you want to save the screenshot
             String screenshotFilename = "screenshot_" + filename.replace(".html", ".png");
             String screenshotPath = "C:\\Users\\Jack Ro\\Desktop\\캡스톤 디자인 2\\Screenshot" + screenshotFilename;
 
-            // Create an HtmlFile object
-            HtmlFileDto htmlFile = new HtmlFileDto(filename, 0);
-
             // Take a screenshot of the entire screen and save it to disk
-            BufferedImage screenshot = HtmlFileInterface.takeScreenshot(htmlFile);
+            Robot robot = new Robot();
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            BufferedImage screenshot = robot.createScreenCapture(screenRect);
 
             // Write the screenshot to the file
             try {

@@ -1,7 +1,5 @@
 package com.konyang.springbootservice2.domain.posts;
 
-import com.konyang.springbootservice2.web.dto.HtmlFileDto;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
