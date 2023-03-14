@@ -26,6 +26,7 @@ public class HtmlFileController {
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException, AWTException {
+        // Extract the file's extension
         String filename = file.getOriginalFilename();
         String extension = filename.substring(filename.lastIndexOf(".") + 1);
 
@@ -62,6 +63,9 @@ public class dFileUploadController {
             // Define the file path where you want to save the screenshot
             String screenshotFilename = "screenshot_" + filename.replace(".html", ".png");
             String screenshotPath = "C:\\Users\\Jack Ro\\Desktop\\캡스톤 디자인 2\\Screenshot" + screenshotFilename;
+
+            // Create an HtmlFile object
+            HtmlFile htmlFile = new HtmlFile(filename, 0);
 
             // Take a screenshot of the entire screen and save it to disk
             BufferedImage screenshot = htmlFileService.takeScreenshot(htmlFile);
