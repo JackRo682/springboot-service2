@@ -1,7 +1,7 @@
 package com.konyang.springbootservice2.service.posts;
 
 import com.konyang.springbootservice2.domain.posts.HtmlFileInterface;
-import com.konyang.springbootservice2.web.dto.HtmlFile;
+import com.konyang.springbootservice2.web.dto.HtmlFileDto;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +28,7 @@ public class HtmlFileService implements HtmlFileInterface {
 
 
     @Override
-    public void createTable(HtmlFile htmlFile) {
+    public void createTable(HtmlFileDto htmlFile) {
         String tableName = htmlFile.getName().replace(".html", "");
 
         try {
@@ -63,7 +63,7 @@ public class HtmlFileService implements HtmlFileInterface {
 
 
     @Override
-    public void saveInputData(HtmlFile htmlFile, String inputName, String inputValue) {
+    public void saveInputData(HtmlFileDto htmlFile, String inputName, String inputValue) {
         String tableName = htmlFile.getName().replace(".html", "");
 
         // create a SQL query to insert the input data into the correct column
@@ -76,7 +76,7 @@ public class HtmlFileService implements HtmlFileInterface {
 
 
     @Override
-    public BufferedImage takeScreenshot(HtmlFile htmlFile) throws AWTException, IOException {
+    public BufferedImage takeScreenshot(HtmlFileDto htmlFile) throws AWTException, IOException {
         Robot robot = new Robot();
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage screenshot = robot.createScreenCapture(screenRect);

@@ -1,10 +1,10 @@
 package com.konyang.springbootservice2.web.dto;
 
-public class HtmlFile {
+public class HtmlFileDto {
     private String name; // file name
     private int inputCount; // number of input tags in the HTML file
 
-    public HtmlFile(String name, int inputCount) {
+    public HtmlFileDto(String name, int inputCount) {
         this.name = name;
         this.inputCount = inputCount;
     }

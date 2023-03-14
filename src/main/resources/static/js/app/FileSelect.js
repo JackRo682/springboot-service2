@@ -7,6 +7,7 @@ function selectFile() {    // Handle file selection
 
   // Add a change listener to the input element to handle file selection
   input.addEventListener("change", function(event) {
+
     // Get the selected file
     var file = event.target.files[0];
 
@@ -44,36 +45,4 @@ function selectFile() {    // Handle file selection
 
   // Trigger a click event on the input element to open the file selection dialog
   input.click();
-}
-
-function handleInputChange(tableName, inputName, inputValue) {
-  // Create a new AJAX request to update the database with the new input value
-  var xhr = new XMLHttpRequest();
-
-  // Specify the URL and HTTP method for the request
-  xhr.open("POST", "/update");
-
-  // Set the content type of the request
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-  // Define what to do when the response comes back
-  xhr.onload = function() {
-    // If the response is successful, log a message to the console
-    if (xhr.status === 200) {
-      console.log("Input updated successfully!");
-    } else {
-      // If there's an error, log the error message to the console
-      console.log("Error: " + xhr.statusText);
-    }
-  };
-
-  // Send the request with the table name, input name, and input value as parameters
-  xhr.send("tableName=" + tableName + "&inputName=" + inputName + "&inputValue=" + inputValue);
-}
-
-function openHtmlFile(event) {
-    event.preventDefault();  // prevent the default behavior of clicking on a link
-
-    var fileName = event.currentTarget.href;  // get the href attribute of the link
-    window.open(fileName);  // open the HTML file in a new browser window or tab
 }
