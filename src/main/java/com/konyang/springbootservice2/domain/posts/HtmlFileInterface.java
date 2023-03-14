@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public interface HtmlFileService {
+public interface HtmlFileInterface {
     void createTable(HtmlFile htmlFile);
 
     void saveInputData(HtmlFile htmlFile, String inputName, String inputValue);

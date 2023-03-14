@@ -1,10 +1,7 @@
 package com.konyang.springbootservice2.web;
 
-import com.konyang.springbootservice2.domain.posts.HtmlFileService;
+import com.konyang.springbootservice2.domain.posts.HtmlFileInterface;
 import com.konyang.springbootservice2.web.dto.HtmlFile;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +19,7 @@ import java.io.IOException;
 
 public class FileUploadController {
     @Autowired
-    private HtmlFileService htmlFileService;
+    private com.konyang.springbootservice2.domain.posts.HtmlFileInterface HtmlFileInterface;
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException, AWTException {
@@ -50,7 +47,7 @@ public class FileUploadController {
             HtmlFile htmlFile = new HtmlFile(filename, 0);
 
             // Take a screenshot of the entire screen and save it to disk
-            BufferedImage screenshot = htmlFileService.takeScreenshot(htmlFile);
+            BufferedImage screenshot = HtmlFileInterface.takeScreenshot(htmlFile);
 
             // Write the screenshot to the file
             try {

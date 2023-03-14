@@ -1,6 +1,6 @@
 package com.konyang.springbootservice2.service.posts;
 
-import com.konyang.springbootservice2.domain.posts.HtmlFileService;
+import com.konyang.springbootservice2.domain.posts.HtmlFileInterface;
 import com.konyang.springbootservice2.web.dto.HtmlFile;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class HtmlFileServiceImpl implements HtmlFileService {
+public class HtmlFileServiceImpl implements HtmlFileInterface {
     @Autowired
     private static final Logger logger = LoggerFactory.getLogger(HtmlFileServiceImpl.class);
     private JdbcTemplate jdbcTemplate;
