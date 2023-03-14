@@ -1,6 +1,5 @@
 package com.konyang.springbootservice2.service.posts;
 
-import com.konyang.springbootservice2.domain.posts.HtmlFile;
 import com.konyang.springbootservice2.domain.posts.HtmlFileService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

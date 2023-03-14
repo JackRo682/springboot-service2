@@ -1,6 +1,5 @@
 package com.konyang.springbootservice2.web;
 
-import com.konyang.springbootservice2.domain.posts.HtmlFile;
 import com.konyang.springbootservice2.domain.posts.HtmlFileService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,7 +34,6 @@ public class HtmlFileController {
             /* HTML file save to the local folder */
             // Create a File object with the desired file path
             File dest = new File("C:\\Users\\Jack Ro\\Desktop\\freelec-springboot2-webservice-master\\testdb\\" + file.getOriginalFilename());
-            File dest = new File(filename);
 
             // Save the file to the desired directory using transferTo() method
             file.transferTo(dest);
